@@ -39,7 +39,6 @@ export function getMiddleCharacter(str) {
   if (str === undefined) throw new Error("str is required");
   const strLen = str.length;
   const roughMiddle = strLen/2;
-  console.warn(roughMiddle);
   if((strLen % 2) === 0) {
     return str[roughMiddle-1] + str[roughMiddle];
   }
@@ -66,7 +65,8 @@ export function reverseAllWords(words) {
 
 export function countLinuxUsers(users) {
   if (users === undefined) throw new Error("users is required");
-  // Add your code here!
+  const linuxUsers = users.filter((user) => user.type == "Linux");
+  return linuxUsers.length;
 }
 
 export function getMeanScore(scores) {
