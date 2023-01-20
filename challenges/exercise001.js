@@ -71,10 +71,23 @@ export function countLinuxUsers(users) {
 
 export function getMeanScore(scores) {
   if (scores === undefined) throw new Error("scores is required");
-  // Add your code here!
+  let runningTotal = 0;
+  scores.forEach((score) => {runningTotal += score;});
+  return Number((runningTotal/scores.length).toFixed(2));
 }
 
 export function simpleFizzBuzz(n) {
   if (n === undefined) throw new Error("n is required");
-  // Add your code here!
+  let replacement = "";
+
+  if((n % 3) === 0){
+    replacement += "fizz";
+  }
+  if((n % 5) === 0){
+    replacement += "buzz";
+  }
+  if(replacement === "") {
+    return n;
+  }
+  return replacement;
 }
