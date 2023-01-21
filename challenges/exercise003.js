@@ -5,6 +5,9 @@ export function getSquares(nums) {
 
 export function camelCaseWords(words) {
   if (words === undefined) throw new Error("words is required");
+  /*
+    The function in mapp is allowed position as an optional argument.
+  */
   const componentWords = words.map((word,pos) => (
     (pos === 0) ? word : word[0].toUpperCase() + word.substring(1)
   ));
