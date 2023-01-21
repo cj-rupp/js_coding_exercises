@@ -17,12 +17,11 @@ export function getTotalSubjects(people) {
     return 0;
   }
   else {
-    const head = people[0];
-    const tail = people.slice(1);
-    /*  Why can't you split a list with a spread operator? E.g.
-          peopleArr == [head, ...tail];
-        Is that just too sloppy?
+    /*
+      Split people array into head and tail with spread operator.
+      (Reminds me of logic programming.) 
     */
+    const [head, ...tail] = people;
     return head.subjects.length + getTotalSubjects(tail);
   }
 }
@@ -65,8 +64,14 @@ function myFindDuplicateNumsR(arr1, arr2) {
     return [];
   }
   else {
-    let duplicatesInTail = duplicateNumbers(arr1.slice(1),arr2);
-    let currentNumber = arr1[0];
+    /*
+      Split array into 2 constants with spread operator.
+      But, declare duplicatesInTail with a let, because you
+      may push an unseen duplicate to it.
+    */
+    const [currentNumber, ...remainder] = arr1;
+
+    let duplicatesInTail = duplicateNumbers(remainder,arr2);
     if(duplicatesInTail.includes(currentNumber)) {
       /* empty */
     }
