@@ -4,8 +4,19 @@
  */
 export const sumDigits = (n) => {
   if (n === undefined) throw new Error("n is required");
+  const digitArr = String(n).split("");
+  return sumDigitArr(digitArr);
 };
 
+const sumDigitArr = (digitArr) => {
+  if(digitArr.length === 0) {
+    return 0;
+  }
+  else {
+    const [currentDigit, ...laterDigits] = digitArr;
+    return Number(currentDigit) + sumDigitArr(laterDigits);
+  }
+}
 /**
  * This function creates a range of numbers as an array. It received a start, an end and a step. Step is the gap between numbers in the range. For example, if start = 3, end = 11 and step = 2 the resulting range would be: [3, 5, 7, 9, 11]
  * Both the start and the end numbers are inclusive.
@@ -17,10 +28,14 @@ export const sumDigits = (n) => {
 export const createRange = (start, end, step) => {
   if (start === undefined) throw new Error("start is required");
   if (end === undefined) throw new Error("end is required");
-  if (step === undefined)
-    console.log(
-      "FYI: Optional step parameter not provided. Remove this check once you've handled the optional step!"
-    );
+  if (step === undefined) {
+    step = 1;
+  }
+  const newRange = [];
+  for(let i=start; i<=end; i+=step){
+    newRange.push(i);
+  }
+  return newRange;
 };
 
 /**
@@ -55,6 +70,24 @@ export const createRange = (start, end, step) => {
 export const getScreentimeAlertList = (users, date) => {
   if (users === undefined) throw new Error("users is required");
   if (date === undefined) throw new Error("date is required");
+  const userNameArr = [];
+  users.forEach((user) => {
+    const screenRecord = user.screenTime;
+    const sessionData = screenRecord.filter((session) => session.date === date);
+    if(sessionData.length > 0) {
+      const currentSession = sessionData[0];
+      const usageObj = currentSession.usage;
+      const apps = Object.keys(usageObj);
+      let totalScreenTime = 0;
+      apps.forEach((app) => {
+        totalScreenTime += Number(usageObj[app]);
+      })
+      if(totalScreenTime > 100){
+        userNameArr.push(user.username);
+      }
+    }
+  });
+  return userNameArr;
 };
 
 /**
@@ -69,6 +102,31 @@ export const getScreentimeAlertList = (users, date) => {
  */
 export const hexToRGB = (hexStr) => {
   if (hexStr === undefined) throw new Error("hexStr is required");
+  
+  const hexExtTable = {
+    A: 10,
+    B: 11,
+    C: 12,
+    D: 13,
+    E: 14,
+    F: 15,
+  }
+
+  const hexCharArr = hexStr.slice(1).split("");
+  const decimalRawArr = hexCharArr.map((char) => (Number.isNaN(parseInt(char))? hexExtTable[char] : char));
+
+  const decimalPairArr = [];
+  const redHxStr = decimalRawArr.slice(0,2);
+  decimalPairArr.push(redHxStr);
+  const grnHxStr = decimalRawArr.slice(2,4);
+  decimalPairArr.push(grnHxStr);
+  const bluHxStr = decimalRawArr.slice(4,6);
+  decimalPairArr.push(bluHxStr);
+
+  const decimalNumArr = decimalPairArr.map((pair) => (parseInt(pair[0]) * 16) + parseInt(pair[1]));
+
+  return "rgb("+decimalNumArr[0]+","+decimalNumArr[1]+","+decimalNumArr[2]+")";
+
 };
 
 /**
@@ -83,4 +141,57 @@ export const hexToRGB = (hexStr) => {
  */
 export const findWinner = (board) => {
   if (board === undefined) throw new Error("board is required");
+  /*
+    OK. So, this is brute force, but I'm running out of time.
+  */
+  const linesArr = board.slice();
+  const column1 = [];
+  column1.push(board[0][0]);
+  column1.push(board[1][0]);
+  column1.push(board[2][0]);
+  linesArr.push(column1);
+  const column2 = [];
+  column2.push(board[0][1]);
+  column2.push(board[1][1]);
+  column2.push(board[2][1]);
+  linesArr.push(column2);
+  const column3 = [];
+  column3.push(board[0][2]);
+  column3.push(board[1][2]);
+  column3.push(board[2][2]);
+  linesArr.push(column3);
+  const diagonal1 = [];
+  diagonal1.push(board[0][0]);
+  diagonal1.push(board[1][1]);
+  diagonal1.push(board[2][2]);
+  linesArr.push(diagonal1);
+  const diagonal2 = [];
+  diagonal2.push(board[0][2]);
+  diagonal2.push(board[1][1]);
+  diagonal2.push(board[2][0]);
+  linesArr.push(diagonal2);
+
+
+  let result = null;
+
+  linesArr.forEach((line) => {
+    const xLine = line.filter((element) => element === "X");
+    if(xLine.length === 3){
+      result = "X";
+      return;
+    }
+    const oLine = line.filter((element) => element === "0");
+    if(oLine.length === 3){
+      result = "0";
+      return;
+    }
+    console.log("["+xLine.length+"|"+oLine.length+"]");
+  })
+
+  if(result === null){
+    return "stalemate";
+  }
+  else {
+    return result;
+  }
 };
