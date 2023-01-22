@@ -1,3 +1,8 @@
+
+import {
+  totalNumArr,
+} from "../challenges/exercise005";
+
 /**
  * This function will receive an array of numbers and should return the sum
  * of any numbers which are a multiple of 3 or 5
@@ -6,6 +11,11 @@
  */
 export const sumMultiples = (arr) => {
   if (arr === undefined) throw new Error("arr is required");
+  const multipleArr = arr.filter((num) => (((num % 3) === 0) || ((num % 5) == 0)));
+  /*
+    I defined the sum of numbers in an array in exercise005.
+  */
+  return totalNumArr(multipleArr);
 };
 
 /**
@@ -15,6 +25,16 @@ export const sumMultiples = (arr) => {
  */
 export const isValidDNA = (str) => {
   if (str === undefined) throw new Error("str is required");
+  if(str === ""){
+    return false;
+  }
+  else {
+    /*
+      Matching a complmented class is as compact as I can get it.
+    */
+    const nonDNACharArr = str.match(/[^CGTA]/);
+    return nonDNACharArr === null;
+  }
 };
 
 /**
@@ -24,6 +44,20 @@ export const isValidDNA = (str) => {
  */
 export const getComplementaryDNA = (str) => {
   if (str === undefined) throw new Error("str is required");
+  if(isValidDNA(str)) {
+    const compBaseTbl = {
+      C: "G",
+      G: "C",
+      T: "A",
+      A: "T",
+    } 
+    const dnaCharArr = str.split("");
+    const compCharArr = dnaCharArr.map((char) => compBaseTbl[char]);
+    return compCharArr.join("");
+  }
+  else {
+    throw new Error("str is not a valid DNA string!");
+  }
 };
 
 /**
@@ -33,6 +67,23 @@ export const getComplementaryDNA = (str) => {
  */
 export const isItPrime = (n) => {
   if (n === undefined) throw new Error("n is required");
+  if(n === 0) {
+    return false;
+  }
+  else if(n === 1) {
+    return true;
+  }
+  else {
+  /*
+    This naive test is probably not efficient, but I think it's true;
+  */
+    for(let i=2; i<n; i++){
+      if((n % i) === 0) {
+        return false;
+      }
+    }
+    return true;
+  }
 };
 
 /**
@@ -49,6 +100,15 @@ export const isItPrime = (n) => {
 export const createMatrix = (n, fill) => {
   if (n === undefined) throw new Error("n is required");
   if (fill === undefined) throw new Error("fill is required");
+  const matrix = [];
+  for(let i=0; i<n; i++) {
+    const newRow = [];
+    for(let j=0; j<n; j++) {
+      newRow.push(fill);
+    }
+    matrix.push(newRow);
+  }
+  return matrix;
 };
 
 /**
@@ -66,4 +126,6 @@ export const createMatrix = (n, fill) => {
 export const areWeCovered = (staff, day) => {
   if (staff === undefined) throw new Error("staff is required");
   if (day === undefined) throw new Error("day is required");
+  const dutyStaff = staff.filter((employee) => employee.rota.includes(day));
+  return dutyStaff.length >= 3;
 };

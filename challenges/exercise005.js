@@ -49,7 +49,7 @@ export const sumArrays = (arrs) => {
   return sumTotalArr(arrs);
 };
 
-function totalNumArr(numArr) {
+export const totalNumArr = (numArr) => {
   if(numArr.length === 0) {
     return 0;
   }
@@ -59,7 +59,7 @@ function totalNumArr(numArr) {
   }
 }
 
-function sumTotalArr(numArrArr) {
+const sumTotalArr = (numArrArr) => {
   if(numArrArr.length === 0) {
     return 0;
   }
