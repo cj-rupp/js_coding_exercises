@@ -86,13 +86,5 @@ import {
             ["X", null, "0"]
         ];
         expect(findWinner(grid1)).toBe("X");
-        /* 
-        expect(findWinner("#800000")).toBe("rgb(128,0,0)");
-        expect(findWinner("#8B0000")).toBe("rgb(139,0,0)");
-        expect(findWinner("#A52A2A")).toBe("rgb(165,42,42)");
-        expect(findWinner("#FFFFFF")).toBe("rgb(255,255,255)");
-        expect(findWinner("#000000")).toBe("rgb(0,0,0)");
-        expect(findWinner("#808080")).toBe("rgb(128,128,128)"); 
-        */
     })
   })
